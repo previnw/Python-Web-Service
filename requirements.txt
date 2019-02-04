@@ -1,7 +1,11 @@
 certifi==2018.11.29
 chardet==3.0.4
 Click==7.0
+ffmpeg-python==0.1.17
+ffprobe==0.5
 Flask==1.0.2
+Flask-Caching==1.4.0
+future==0.17.1
 gunicorn==19.9.0
 idna==2.8
 itsdangerous==1.1.0
@@ -9,5 +13,6 @@ Jinja2==2.10
 MarkupSafe==1.1.0
 pydub==0.23.1
 requests==2.21.0
+simpleaudio==1.0.2
 urllib3==1.24.1
 Werkzeug==0.14.1
