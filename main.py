@@ -1,17 +1,21 @@
-from flask import Flask, render_template, url_for, jsonify, request, redirect
+from flask import Flask, render_template, url_for, jsonify, request, redirect, send_file, send_from_directory
 from random import sample
 import requests
 import json
 import sys
-# from pydub import AudioSegment
-# from pydub.playback import play
-app = Flask(__name__)
+from pydub import AudioSegment
+from pydub.playback import play
+from io import BytesIO
+from multiprocessing import Value
+
+counter = Value('i', 0)
+app = Flask(__name__, static_folder="static")
 
 # @app.route('/numbers')
 # def numbers():
 #     return jsonify({'numbers' : sample(range(1,5), 2)})
 
-@app.route('/get')
+@app.route('/')
 def get():
 	
 	# uri = 'http://127.0.0.1:5000/numbers'
@@ -35,68 +39,83 @@ def get():
 
 	output_str = euros_str + " euros and " + cents_str + " cents"
 
-	# euros = int(euros_str)
-	# cents = int(cents_str)
+	euros = int(euros_str)
+	cents = int(cents_str)
 
-	# if euros == 1:
-	# 	# print(passNumbers[0])
-	# 	euros_mp3 = AudioSegment.from_mp3("./mp3s/1euro.mp3")
-	# 	# euros = AudioSegment.from_file("./mp3s/1euro.mp3", format="mp3")
+	if euros == 1:
+		# print(passNumbers[0])
+		euros_mp3 = AudioSegment.from_mp3("static/1euro.mp3")
+		# euros = AudioSegment.from_file("./mp3s/1euro.mp3", format="mp3")
 
-	# elif euros == 2:
-	# 	# print(passNumbers[0])
-	# 	euros_mp3 = AudioSegment.from_mp3("./mp3s/2euros.mp3")
-	# 	# euros = AudioSegment.from_file("./mp3s/2euros.mp3", format="mp3")
+	elif euros == 2:
+		# print(passNumbers[0])
+		euros_mp3 = AudioSegment.from_mp3("static/2euros.mp3")
+		# euros = AudioSegment.from_file("./mp3s/2euros.mp3", format="mp3")
 
-	# elif euros == 3:
-	# 	# print(passNumbers[0])
-	# 	euros_mp3 = AudioSegment.from_mp3("./mp3s/3euros.mp3")
-	# 	# euros = AudioSegment.from_file("./mp3s/3euros.mp3", format="mp3")
+	elif euros == 3:
+		# print(passNumbers[0])
+		euros_mp3 = AudioSegment.from_mp3("static/3euros.mp3")
+		# euros = AudioSegment.from_file("./mp3s/3euros.mp3", format="mp3")
 
-	# elif euros == 4:
-	# 	# print(passNumbers[0])
-	# 	euros_mp3 = AudioSegment.from_mp3("./mp3s/4euros.mp3")
-	# 	# euros = AudioSegment.from_file("./mp3s/4euros.mp3", format="mp3")
+	elif euros == 4:
+		# print(passNumbers[0])
+		euros_mp3 = AudioSegment.from_mp3("static/4euros.mp3")
+		# euros = AudioSegment.from_file("./mp3s/4euros.mp3", format="mp3")
 
-	# elif passNumbers[0] == 5:
-	# 	# print(passNumbers[0])
-	# 	euros_mp3 = AudioSegment.from_mp3("./mp3s/5euros.mp3")
-	# 	# euros = AudioSegment.from_file("./mp3s/5euros.mp3", format="mp3")
+	elif passNumbers[0] == 5:
+		# print(passNumbers[0])
+		euros_mp3 = AudioSegment.from_mp3("static/5euros.mp3")
+		# euros = AudioSegment.from_file("./mp3s/5euros.mp3", format="mp3")
 
-	# and_mp3 = AudioSegment.from_file("./mp3s/and.mp3", format="mp3")
+	and_mp3 = AudioSegment.from_file("static/and.mp3", format="mp3")
 
-	# if cents == 1:
-	# 	# print(passNumbers[0])
-	# 	cents_mp3 = AudioSegment.from_mp3("./mp3s/1cent.mp3")
-	# 	# cents = AudioSegment.from_file("./mp3s/1cent.mp3", format="mp3")
+	if cents == 1:
+		# print(passNumbers[0])
+		cents_mp3 = AudioSegment.from_mp3("static/1cent.mp3")
+		# cents = AudioSegment.from_file("./mp3s/1cent.mp3", format="mp3")
 
-	# elif cents == 2:
-	# 	# print(passNumbers[0])
-	# 	cents_mp3 = AudioSegment.from_mp3("./mp3s/2cents.mp3")
-	# 	# cents = AudioSegment.from_file("./mp3s/2cents.mp3", format="mp3")
+	elif cents == 2:
+		# print(passNumbers[0])
+		cents_mp3 = AudioSegment.from_mp3("static/2cents.mp3")
+		# cents = AudioSegment.from_file("./mp3s/2cents.mp3", format="mp3")
 
-	# elif cents == 3:
-	# 	# print(passNumbers[0])
-	# 	cents_mp3 = AudioSegment.from_mp3("./mp3s/3cents.mp3")
-	# 	# cents = AudioSegment.from_file("./mp3s/3cents.mp3", format="mp3")
+	elif cents == 3:
+		# print(passNumbers[0])
+		cents_mp3 = AudioSegment.from_mp3("static/3cents.mp3")
+		# cents = AudioSegment.from_file("./mp3s/3cents.mp3", format="mp3")
 
-	# elif cents == 4:
-	# 	# print(passNumbers[0])
-	# 	cents_mp3 = AudioSegment.from_mp3("./mp3s/4cents.mp3")
-	# 	# cents = AudioSegment.from_file("./mp3s/4cents.mp3", format="mp3")
+	elif cents == 4:
+		# print(passNumbers[0])
+		cents_mp3 = AudioSegment.from_mp3("static/4cents.mp3")
+		# cents = AudioSegment.from_file("./mp3s/4cents.mp3", format="mp3")
 
-	# elif cents == 5:
-	# 	# print(passNumbers[0])
-	# 	cents_mp3 = AudioSegment.from_mp3("./mp3s/5cents.mp3")
-	# 	# cents = AudioSegment.from_file("./mp3s/5cents.mp3", format="mp3")
+	elif cents == 5:
+		# print(passNumbers[0])
+		cents_mp3 = AudioSegment.from_mp3("static/5cents.mp3")
+		# cents = AudioSegment.from_file("./mp3s/5cents.mp3", format="mp3")
 
-	# ivr = euros_mp3 + and_mp3 + cents_mp3
+	ivr = euros_mp3 + and_mp3 + cents_mp3
 
-	# ivr.export("./mp3s/ivr.mp3", format="mp3")
+	with counter.get_lock():
+		counter.value += 1
+
+	# return jsonify(count=counter.value)
+
+	temp = str(counter.value)
+	ivr_id = "ivr" + temp + ".mp3"
+	ivr_url = "static/" + ivr_id 
+
+	ivr.export(ivr_url, format="mp3")
 	# datMoney = AudioSegment.from_file("./mp3s/ivr.mp3", format="mp3")
 	# play(datMoney)
 
-	return output_str
+	return send_from_directory(app.static_folder, ivr_id)
+
+	# return jsonify(value=ivr_url)
+
+# @app.route('/app')
+# def app():
+# 	return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
