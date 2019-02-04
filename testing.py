@@ -8,7 +8,6 @@ nums = sample(range(1,5), 2)
 initial_string = {"numbers": nums}
 json_data = json.dumps(initial_string)
 
-temp_dict = {}
 filtered_str = json_data.replace(" ", "")
 filtered_str = filtered_str.strip("}").strip("{").strip('"numbers"').strip(":").strip("]").strip("[")
 euros_str,cents_str = filtered_str.split(",")

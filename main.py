@@ -7,19 +7,25 @@ import sys
 # from pydub.playback import play
 app = Flask(__name__)
 
-@app.route('/numbers')
-def numbers():
-    return jsonify({'numbers' : sample(range(1,5), 2)})
+# @app.route('/numbers')
+# def numbers():
+#     return jsonify({'numbers' : sample(range(1,5), 2)})
 
 @app.route('/get')
 def get():
-	uri = 'http://127.0.0.1:5000/numbers'
-	uResponse = requests.get(uri)
-	Jresponse = uResponse.text
-	data = json.loads(Jresponse)
-	jsonData = json.dumps(data)
+	
+	# uri = 'http://127.0.0.1:5000/numbers'
+	# uri = jsonify({'numbers' : sample(range(1,5), 2)})
+	# uResponse = requests.get(uri)
+	# Jresponse = uResponse.text
+	# data = json.loads(Jresponse)
+	# jsonData = json.dumps(data)
 
-	filtered_str = jsonData.replace(" ", "")
+	nums = sample(range(1,5), 2)
+	initial_string = {"numbers": nums}
+	json_data = json.dumps(initial_string)
+
+	filtered_str = json_data.replace(" ", "")
 	filtered_str = filtered_str.strip("}").strip("{").strip('"numbers"').strip(":").strip("]").strip("[")
 	euros_str,cents_str = filtered_str.split(",")
 
@@ -90,7 +96,7 @@ def get():
 	# datMoney = AudioSegment.from_file("./mp3s/ivr.mp3", format="mp3")
 	# play(datMoney)
 
-	return Jresponse
+	return output_str
 
 if __name__ == '__main__':
     app.run(debug=True)
