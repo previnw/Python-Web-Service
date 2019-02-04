@@ -90,7 +90,7 @@ def get():
 	# datMoney = AudioSegment.from_file("./mp3s/ivr.mp3", format="mp3")
 	# play(datMoney)
 
-	return output_str
+	return Jresponse
 
 if __name__ == '__main__':
     app.run(debug=True)
