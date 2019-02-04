@@ -1,6 +1,5 @@
 from flask import Flask, render_template, url_for, jsonify, request, redirect, send_file, send_from_directory
 from random import sample
-from ffprobe import FFProbe
 import requests
 import json
 import sys
@@ -111,9 +110,9 @@ def get():
 	# datMoney = AudioSegment.from_file("./mp3s/ivr.mp3", format="mp3")
 	# play(datMoney)
 
-	return send_from_directory(app.static_folder, ivr_id)
+	# return send_from_directory(app.static_folder, ivr_id)
 
-	# return jsonify(value=ivr_url)
+	return jsonify(value=ivr_url)
 
 # @app.route('/app')
 # def app():
