@@ -3,8 +3,8 @@ from random import sample
 import requests
 import json
 import sys
-from pydub import AudioSegment
-from pydub.playback import play
+# from pydub import AudioSegment
+# from pydub.playback import play
 app = Flask(__name__)
 
 @app.route('/numbers')
