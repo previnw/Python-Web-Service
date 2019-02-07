@@ -30,6 +30,7 @@ def get():
 	initial_string = {"numbers": nums}
 	json_data = json.dumps(initial_string)
 
+
 	filtered_str = json_data.replace(" ", "")
 	filtered_str = filtered_str.strip("}").strip("{").strip('"numbers"').strip(":").strip("]").strip("[")
 	euros_str,cents_str = filtered_str.split(",")
